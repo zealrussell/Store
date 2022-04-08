@@ -29,4 +29,5 @@ public class UserController extends BaseController{
         userService.reg(user);
         return new JSONResult<>(OK);
     }
+
 }
