@@ -2,7 +2,7 @@ package com.zeal.store.service.ex;
 
 /**
  * WHAT THE ZZZZEAL
- * 异常类
+ * 异常基本类
  * @author zeal
  * @version 1.0
  * @date 2022/4/8 10:45

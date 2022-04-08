@@ -4,6 +4,8 @@ import com.zeal.store.entity.User;
 import com.zeal.store.mapper.UserMapper;
 import com.zeal.store.service.IUserService;
 import com.zeal.store.service.ex.InsertException;
+import com.zeal.store.service.ex.PasswordNotMatchException;
+import com.zeal.store.service.ex.UserNotFoundException;
 import com.zeal.store.service.ex.UsernameDuplicatedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,10 +55,35 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public User login(String username, String password) {
+        User result = userMapper.findByUsername(username);
+
+        //用户不存在 或 被删除
+        if (result == null || result.getIsDelete() == 1) {
+            throw new UserNotFoundException("用户数据不存在");
+        }
+
+        String sault = result.getSalt();
+        String newPassword = getMD5Password(password,sault);
+        if(!newPassword.equals(result.getPassword())) {
+            throw new PasswordNotMatchException("用户密码不正确");
+        }
+
+        //压缩返回的数据大小
+        User user = new User();
+        user.setUid(result.getUid());
+        user.setUsername(result.getUsername());
+        user.setAvatar(result.getAvatar());
+
+        return user;
+    }
+
+    @Override
     public String getMD5Password(String password, String sault) {
         for (int i = 0; i < 3; i++) {
             password = DigestUtils.md5DigestAsHex((sault + password + sault).getBytes()).toUpperCase();
         }
         return password;
     }
+
 }

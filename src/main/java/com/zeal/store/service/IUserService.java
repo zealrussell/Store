@@ -24,5 +24,12 @@ public interface IUserService {
      */
     String getMD5Password(String password, String sault);
 
+    /**
+     * 登录函数
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录成功返回对象，失败返回null
+     */
+    User login(String username, String password);
 
 }
