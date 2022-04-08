@@ -1,6 +1,7 @@
-package com.zeal.stroe.mapper;
+package com.zeal.store.mapper;
 
-import com.zeal.stroe.entity.User;
+import com.zeal.store.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * WHAT THE ZZZZEAL
@@ -9,25 +10,26 @@ import com.zeal.stroe.entity.User;
  * @version 1.0
  * @date 2022/4/8 9:49
  */
+@Mapper
 public interface UserMapper {
     /**
      * 插入用户的数据
-     * @param user
+     * @param user 用户
      * @return 受影响的行数（增删改）
      */
     Integer insert(User user);
 
     /**
      * 根据用户名查找用户
-     * @param userName
+     * @param userName 用户名
      * @return 找到返回用户，没找到返回null
      */
     User findByUsername(String userName);
 
     /**
-     *
-     * @param uid
-     * @return
+     * 根据id查找用户
+     * @param uid 用户id
+     * @return 返回user
      */
     User findByUid(String uid);
 }

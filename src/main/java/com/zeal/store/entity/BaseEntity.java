@@ -1,4 +1,4 @@
-package com.zeal.stroe.entity;
+package com.zeal.store.entity;
 
 import java.io.Serializable;
 import java.util.Date;

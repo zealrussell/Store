@@ -1,5 +1,6 @@
-package com.zeal.stroe.entity;
+package com.zeal.store.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Objects;
  * @version 1.0
  * @date 2022/4/8 9:38
  */
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
     private Integer uid;
     private String username;
     private String password;

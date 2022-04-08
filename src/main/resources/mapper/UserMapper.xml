@@ -5,7 +5,7 @@
 <mapper namespace="com.zeal.store.mapper.UserMapper">
 
     <!-- 自定义返回映射内容 -->
-    <resultMap id="UserEntityMap" type="com.cy.store.entity.User">
+    <resultMap id="UserEntityMap" type="com.zeal.store.entity.User">
         <id column="uid" property="uid"/>
         <result column="is_delete" property="isDelete"/>
         <result column="created_user" property="createdUser"/>
