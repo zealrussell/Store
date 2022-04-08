@@ -56,15 +56,15 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User login(String username, String password) {
-        User result = userMapper.findByUsername(username);
 
+        User result = userMapper.findByUsername(username);
         //用户不存在 或 被删除
         if (result == null || result.getIsDelete() == 1) {
             throw new UserNotFoundException("用户数据不存在");
         }
 
         String sault = result.getSalt();
-        String newPassword = getMD5Password(password,sault);
+        String newPassword = getMD5Password(password, sault);
         if(!newPassword.equals(result.getPassword())) {
             throw new PasswordNotMatchException("用户密码不正确");
         }
