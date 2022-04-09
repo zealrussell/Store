@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * WHAT THE ZZZZEAL
  *
@@ -31,8 +33,10 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping("login")
-    public JSONResult<User> login(String username, String password){
+    public JSONResult<User> login(String username, String password, HttpSession session){
         User user = userService.login(username, password);
+        session.setAttribute("uid",user.getUid());
+        session.setAttribute("username",user.getUsername());
         return new JSONResult<User>(OK,user);
     }
 
