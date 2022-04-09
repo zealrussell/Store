@@ -21,23 +21,15 @@ public class IUserServiceTest {
     @Autowired
     private IUserService userService;
 
-    @Test
-    void reg() {
-        try {
-            User user = new User();
-            user.setUsername("zeal1");
-            user.setPassword("123");
-            userService.reg(user);
-            System.out.println("ok");
-        } catch (ServiceException e) {
-            System.out.println(e.getClass().getSimpleName());
-            System.out.println(e.getMessage());
-        }
-    }
 
     @Test
     void login(){
         User user = userService.login("zeal3","1234");
         System.out.println(user);
+    }
+
+    @Test
+    void update(){
+
     }
 }

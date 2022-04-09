@@ -3,6 +3,8 @@ package com.zeal.store.mapper;
 import com.zeal.store.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
+
 /**
  * WHAT THE ZZZZEAL
  *
@@ -29,7 +31,21 @@ public interface UserMapper {
     /**
      * 根据id查找用户
      * @param uid 用户id
-     * @return 返回user
+     * @return 成功返回user，失败返回null
      */
-    User findByUid(String uid);
+    User findByUid(Integer uid);
+
+    /**
+     * 根据uid 修改密码
+     * @param uid id
+     * @param password 密码
+     * @param modifiedUser 修改者
+     * @param modifiedTime 修改时间
+     * @return 影响行数
+     */
+    Integer updatePasswordByUid(Integer uid, String password, String modifiedUser, Date modifiedTime);
+
+
+
+
 }

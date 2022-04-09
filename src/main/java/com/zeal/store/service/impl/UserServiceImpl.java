@@ -3,10 +3,7 @@ package com.zeal.store.service.impl;
 import com.zeal.store.entity.User;
 import com.zeal.store.mapper.UserMapper;
 import com.zeal.store.service.IUserService;
-import com.zeal.store.service.ex.InsertException;
-import com.zeal.store.service.ex.PasswordNotMatchException;
-import com.zeal.store.service.ex.UserNotFoundException;
-import com.zeal.store.service.ex.UsernameDuplicatedException;
+import com.zeal.store.service.ex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -76,6 +73,24 @@ public class UserServiceImpl implements IUserService {
         user.setAvatar(result.getAvatar());
 
         return user;
+    }
+
+    @Override
+    public void changePassword(Integer uid, String username, String oldPassword, String newPassword) {
+        User result = userMapper.findByUid(uid);
+        if (result == null || result.getIsDelete() == 1) {
+            throw new UserNotFoundException("用户不存在");
+        }
+        String oldMD5 = getMD5Password(oldPassword, result.getSalt());
+        if (! result.getPassword().equals(oldMD5)) {
+            throw new PasswordNotMatchException("用户密码不正确");
+        }
+        String newMD5 = getMD5Password(newPassword, result.getSalt());
+        Integer rows = userMapper.updatePasswordByUid(uid,newMD5, username, new Date());
+        if (rows != 1) {
+            throw new UpdateException("更新数据时产生未知异常");
+        }
+
     }
 
     @Override

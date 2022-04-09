@@ -32,4 +32,5 @@ public interface IUserService {
      */
     User login(String username, String password);
 
+    void changePassword(Integer uid, String username, String oldPassword, String newPassword);
 }
