@@ -45,7 +45,7 @@ public class BaseController {
         return result;
     }
 
-    protected final Integer getuidFromSession (HttpSession session) {
+    protected final Integer getUidFromSession (HttpSession session) {
        return Integer.valueOf(session.getAttribute("uid").toString());
     }
 

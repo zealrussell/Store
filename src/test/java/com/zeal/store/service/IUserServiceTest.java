@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -29,7 +31,24 @@ public class IUserServiceTest {
     }
 
     @Test
-    void update(){
-
+    void getByUid(){
+        System.out.println(userService.getByUid(2));
     }
+    @Test
+    void update(){
+        try {
+            Integer uid = 2;
+            String username = "数据管理员";
+            User user = new User();
+            user.setPhone("15512328888");
+            user.setEmail("admin03@cy.cn");
+            user.setGender(2);
+            userService.changeInfo(uid, username, user);
+            System.out.println("OK.");
+        } catch (ServiceException e) {
+            System.out.println(e.getClass().getSimpleName());
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

@@ -94,6 +94,39 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public User getByUid(Integer uid) {
+        User result = userMapper.findByUid(uid);
+        if (result == null || result.getIsDelete() == 1) {
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        User user = new User();
+        user.setUsername(result.getUsername());
+        user.setPhone(result.getPhone());
+        user.setEmail(result.getEmail());
+        user.setGender(result.getGender());
+        return user;
+
+    }
+
+    @Override
+    public void changeInfo(Integer uid, String username, User user) {
+        User result = userMapper.findByUid(uid);
+        if (result == null || result.getIsDelete() == 1) {
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        user.setUid(uid);
+        user.setModifiedUser(result.getUsername());
+        user.setModifiedTime(new Date());
+
+        Integer rows = userMapper.updateInfoByUid(user);
+        if (rows != 1) {
+            throw new UpdateException("更新数据时产生异常");
+        }
+
+    }
+
+
+    @Override
     public String getMD5Password(String password, String sault) {
         for (int i = 0; i < 3; i++) {
             password = DigestUtils.md5DigestAsHex((sault + password + sault).getBytes()).toUpperCase();

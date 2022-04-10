@@ -32,5 +32,27 @@ public interface IUserService {
      */
     User login(String username, String password);
 
+    /**
+     * 修改用户密码
+     * @param uid id
+     * @param username 用户名
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     */
     void changePassword(Integer uid, String username, String oldPassword, String newPassword);
+
+    /**
+     * 根据uid查找用户
+     * @param uid uid
+     * @return 用户
+     */
+    User getByUid(Integer uid);
+
+    /**
+     * 修改用户信息
+     * @param uid uid
+     * @param username 用户名
+     * @param user 用户对象数据
+     */
+    void changeInfo(Integer uid, String username, User user);
 }

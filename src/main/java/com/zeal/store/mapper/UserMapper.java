@@ -45,7 +45,12 @@ public interface UserMapper {
      */
     Integer updatePasswordByUid(Integer uid, String password, String modifiedUser, Date modifiedTime);
 
-
+    /**
+     * 根据uid修改用户信息
+     * @param user 用户
+     * @return 行数
+     */
+    Integer updateInfoByUid(User user);
 
 
 }
