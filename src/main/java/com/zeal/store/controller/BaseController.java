@@ -27,13 +27,16 @@ public class BaseController {
 
         if (e instanceof UsernameDuplicatedException) {
             result.setState(4000);
-            result.setMessage("用户名已被占用");
+            result.setMessage("用户名已被占用异常");
         } else if (e instanceof UserNotFoundException) {
             result.setState(4001);
-            result.setMessage("用户数据不存在");
+            result.setMessage("用户数据不存在异常");
         } else if (e instanceof PasswordNotMatchException) {
             result.setState(4002);
-            result.setMessage("用户名密码错误");
+            result.setMessage("用户名密码错误异常");
+        } else if (e instanceof AddressCountLimitException) {
+            result.setState(4003);
+            result.setMessage("用户地址超出上限异常");
         } else if (e instanceof InsertException) {
             result.setState(5000);
             result.setMessage("注册时产生异常");

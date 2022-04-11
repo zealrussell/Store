@@ -287,6 +287,35 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+
+		<script type="text/javascript">
+			$("#btn-add-new-address").click(function(){
+				$.ajax({
+					url: "/addresses/add_new_address",
+					type: "POST",
+					data: $("#form-add-new-address").serialize(),
+					dataType: "JSON",
+					success: function(json){
+						if (json.state == 200) {
+							alert("添加地址成功");
+						} else {
+							alert("添加地址失败");
+						}
+					},
+					error: function(xhr){
+						alert("添加地址时产生了异常"+xhr.message);
+					}
+				})
+			})
+
+			$("input[id='password']").keydown(function(){
+				if (event.keyCode == 13) {
+					$("#btn-login").click();
+				}
+			})
+
+		</script>
+
 	</body>
 
 </html>
