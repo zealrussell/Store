@@ -55,4 +55,12 @@ public interface IUserService {
      * @param user 用户对象数据
      */
     void changeInfo(Integer uid, String username, User user);
+
+    /**
+     * 上传头像
+     * @param uid uid
+     * @param avatar 头像地址
+     * @param username 用户名
+     */
+    void changeAvatar(Integer uid, String avatar, String username);
 }

@@ -2,6 +2,7 @@ package com.zeal.store.mapper;
 
 import com.zeal.store.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 
@@ -52,5 +53,8 @@ public interface UserMapper {
      */
     Integer updateInfoByUid(User user);
 
-
+    Integer updateAvatarByUid(Integer uid,
+                              String avatar,
+                              String modifiedUser,
+                              Date modifiedTime);
 }

@@ -150,9 +150,10 @@
 					type: "POST",
 					data: $("#form-login").serialize(),
 					dataType: "JSON",
-					success: function(data){
-						if (data.state == 200) {
+					success: function(json){
+						if (json.state == 200) {
 							alert("登录成功");
+							$.cookie("avatar", json.data.avatar, {expires: 7});
 							location.href="index.html";
 						} else {
 							alert("登录失败");
@@ -163,6 +164,13 @@
 					}
 				})
 			})
+
+			$("input[id='password']").keydown(function(){
+				if (event.keyCode == 13) {
+					$("#btn-login").click();
+				}
+			})
+
 		</script>
 	</body>
 </html>
