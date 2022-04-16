@@ -25,17 +25,23 @@ class AddressServiceImplTest {
     @Test
     void addNewAddress() {
         try {
-            Integer uid = 2;
-            String username = "管理员";
+            Integer uid = 5;
+            String username = "admin";
             Address address = new Address();
-            address.setName("张三");
-            address.setPhone("17858805555");
-            address.setAddress("雁塔区小寨华旗");
+            address.setName("李四");
+            address.setPhone("12345678911");
+            address.setAddress("南京市玄武区");
             addressService.addNewAddress(uid, username, address);
             System.out.println("OK.");
         } catch (ServiceException e) {
             System.out.println(e.getClass().getSimpleName());
             System.out.println(e.getMessage());
         }
+    }
+
+    @Test
+    void updateDefault(){
+        addressService.setDefault(2,2,"zeal");
+
     }
 }

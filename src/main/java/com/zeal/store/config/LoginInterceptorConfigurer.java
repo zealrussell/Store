@@ -36,7 +36,6 @@ public class LoginInterceptorConfigurer implements WebMvcConfigurer {
         whiteList.add("/web/index.html");
         whiteList.add("/web/product.html");
         whiteList.add("/users/**");
-        whiteList.add("/upload/**");
 
 
         // 注册拦截器

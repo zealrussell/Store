@@ -2,6 +2,9 @@ package com.zeal.store.mapper;
 
 import com.zeal.store.entity.Address;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * WHAT THE ZZZZEAL
  *
@@ -19,8 +22,37 @@ public interface AddressMapper {
 
     /**
      * 根据用户的id查询收货地址数量
-     * @param uid
-     * @return
+     * @param uid id
+     * @return 数量
      */
     Integer countByUid(Integer uid);
+
+    /**
+     * 查询某用户的收货地址列表数据
+     * @param uid 收货地址归属的用户id
+     * @return 该用户的收货地址列表数据
+     */
+    List<Address> findByUid(Integer uid);
+
+    /**
+     * 根据aid查询地址
+     * @param aid aid
+     * @return 地址
+     */
+    Address findByAid(Integer aid);
+
+    /**
+     * 将某用户的所有收货地址设置为非默认地址
+     * @param uid 收货地址归属的用户id
+     * @return 受影响的行数
+     */
+    Integer updateNonDefaultByUid(Integer uid);
+
+    /**
+     * 根据aid修改默认地址
+     * @param aid
+     * @return 行数
+     */
+    Integer updateDefaultByAid(Integer aid, String modifiedUser, Date modifiedTime);
+
 }

@@ -2,6 +2,8 @@ package com.zeal.store.service;
 
 import com.zeal.store.entity.Address;
 
+import java.util.List;
+
 /**
  * WHAT THE ZZZZEAL
  *
@@ -17,4 +19,19 @@ public interface IAddressService {
      * @param address 地址
      */
     void addNewAddress(Integer uid, String username, Address address);
+
+    /**
+     * 查询某用户的收货地址列表数据
+     * @param uid 收货地址归属的用户id
+     * @return 该用户的收货地址列表数据
+     */
+    List<Address> getByUid(Integer uid);
+
+    /**
+     * 设置默认收货地址
+     * @param aid 收货地址id
+     * @param uid 归属的用户id
+     * @param username 当前登录的用户名
+     */
+    void setDefault(Integer aid, Integer uid, String username);
 }

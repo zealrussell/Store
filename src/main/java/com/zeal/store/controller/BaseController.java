@@ -37,7 +37,13 @@ public class BaseController {
         } else if (e instanceof AddressCountLimitException) {
             result.setState(4003);
             result.setMessage("用户地址超出上限异常");
-        } else if (e instanceof InsertException) {
+        } else if (e instanceof AddressNotFoundException) {
+            result.setState(4004);
+            result.setMessage("用户收货地址数据不存在异常");
+        } else if (e instanceof AccessDeniedException) {
+            result.setState(4005);
+            result.setMessage("用户收货地址非法访问的异常");
+        }else if (e instanceof InsertException) {
             result.setState(5000);
             result.setMessage("注册时产生异常");
         } else if (e instanceof UpdateException) {
@@ -45,14 +51,19 @@ public class BaseController {
             result.setMessage("更新数据时产生异常");
         } else if (e instanceof FileEmptyException) {
             result.setState(6000);
+            result.setMessage("上传文件为空异常");
         } else if (e instanceof FileSizeException) {
             result.setState(6001);
+            result.setMessage("上传文件超出大小异常");
         } else if (e instanceof FileTypeException) {
             result.setState(6002);
+            result.setMessage("上传文件类型异常");
         } else if (e instanceof FileStateException) {
             result.setState(6003);
+            result.setMessage("上传文件状态异常");
         } else if (e instanceof FileUploadIOException) {
             result.setState(6004);
+            result.setMessage("上传文件读写异常");
         }
 
         return result;
