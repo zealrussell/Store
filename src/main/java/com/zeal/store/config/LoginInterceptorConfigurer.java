@@ -18,8 +18,6 @@ import java.util.List;
  */
 @Configuration
 public class LoginInterceptorConfigurer implements WebMvcConfigurer {
-
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -35,6 +33,7 @@ public class LoginInterceptorConfigurer implements WebMvcConfigurer {
         whiteList.add("/web/login.html");
         whiteList.add("/web/index.html");
         whiteList.add("/web/product.html");
+        whiteList.add("/products/**");
         whiteList.add("/users/**");
 
 
