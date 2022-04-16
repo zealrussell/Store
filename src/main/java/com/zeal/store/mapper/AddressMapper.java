@@ -55,4 +55,19 @@ public interface AddressMapper {
      */
     Integer updateDefaultByAid(Integer aid, String modifiedUser, Date modifiedTime);
 
+    /**
+     * 根据地址aid删除
+     * @param aid aid
+     * @return 行数
+     */
+    Integer deleteByAid(Integer aid);
+
+    /**
+     * 查询某用户最后修改的收货地址
+     * @param uid 归属的用户id
+     * @return 该用户最后修改的收货地址，如果该用户没有收货地址数据则返回null
+     */
+    Address findLastModified(Integer uid);
+
+
 }

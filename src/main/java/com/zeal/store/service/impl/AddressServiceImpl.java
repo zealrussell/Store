@@ -100,5 +100,37 @@ public class AddressServiceImpl implements IAddressService {
 
     }
 
+    @Transactional
+    @Override
+    public void delete(Integer aid, Integer uid, String username) {
+        Address result = addressMapper.findByAid(aid);
+        if (result == null) {
+            throw new AddressNotFoundException("收获地址不存在");
+        }
+        if (!result.getUid().equals(uid)) {
+            throw new AccessDeniedException("非法访问");
+        }
+        Integer rows = addressMapper.deleteByAid(aid);
+        if (rows != 1) {
+            throw new DeleteException("删除地址数据出现错误");
+        }
+        if (result.getIsDefault() == 0) {
+            return;
+        }
+
+        // 如果删除的不是默认地址，还需设置默认地址
+        Integer count = addressMapper.countByUid(uid);
+        if (count == 0) {
+            return;
+        }
+        Address lastModified = addressMapper.findLastModified(uid);
+        Integer lastModifiedAid = lastModified.getAid();
+        Integer rows2 = addressMapper.updateDefaultByAid(lastModifiedAid, username, new Date());
+        if (rows2 != 1) {
+            throw new UpdateException("更新收货地址数据时出现未知错误，请联系系统管理员");
+        }
+
+    }
+
 
 }

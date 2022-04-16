@@ -49,6 +49,9 @@ public class BaseController {
         } else if (e instanceof UpdateException) {
             result.setState(5001);
             result.setMessage("更新数据时产生异常");
+        } else if (e instanceof DeleteException){
+            result.setState(5002);
+            result.setMessage("删除地址时产生异常");
         } else if (e instanceof FileEmptyException) {
             result.setState(6000);
             result.setMessage("上传文件为空异常");

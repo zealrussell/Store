@@ -51,4 +51,12 @@ public class AddressController extends BaseController{
         return new JSONResult<Void>(OK);
     }
 
+    @RequestMapping("{aid}/delete")
+    public JSONResult<Void> delete(@PathVariable("aid") Integer aid, HttpSession session) {
+        Integer uid = getUidFromSession(session);
+        String username = getUsernameFromSession(session);
+        addressService.delete(aid, uid, username);
+        return new JSONResult<>(OK);
+    }
+
 }
