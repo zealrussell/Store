@@ -90,4 +90,5 @@
         WHERE
             uid = #{uid}
     </update>
+
 </mapper>

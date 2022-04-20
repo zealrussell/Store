@@ -20,7 +20,7 @@
 		<link rel="stylesheet" type="text/css" href="../css/top.css" />
 		<link rel="stylesheet" type="text/css" href="../css/footer.css" />
 		<link rel="stylesheet" type="text/css" href="../css/cart.css" />
-		<script src="../js/cart.js" type="text/javascript" charset="utf-8"></script>
+<!--		<script src="../js/cart.js" type="text/javascript" charset="utf-8"></script>-->
 	</head>
 
 	<body>
@@ -120,7 +120,7 @@
 										<td>联想(Lenovo)小新Air13 Pro 13.3英寸14.8mm超轻薄笔记本电脑</td>
 										<td>¥<span id="goodsPrice1">5298</span></td>
 										<td>
-											<input type="button" value="-" class="num-btn" onclick="reduceNum(1)" />
+											<input type="button" value="-" class="num-btn" onclick="delNum(1)" />
 											<input id="goodsCount1" type="text" size="2" readonly="readonly" class="num-text" value="1">
 											<input class="num-btn" type="button" value="+" onclick="addNum(1)" />
 										</td>
@@ -137,7 +137,7 @@
 										<td>戴尔(DELL)XPS13-9360-R1609 13.3</td>
 										<td>¥<span id="goodsPrice2">4988</span></td>
 										<td>
-											<input type="button" value="-" class="num-btn" onclick="reduceNum(2)" />
+											<input type="button" value="-" class="num-btn" onclick="delNum(2)" />
 											<input id="goodsCount2" type="text" size="2" readonly="readonly" class="num-text" value="1">
 											<input class="num-btn" type="button" value="+" onclick="addNum(2)" />
 										</td>
@@ -154,7 +154,7 @@
 										<td>戴尔(DELL)魔方15MF Pro-R2505TSS灵越</td>
 										<td>¥<span id="goodsPrice3">4699</span></td>
 										<td>
-											<input type="button" value="-" class="num-btn" onclick="reduceNum(3)" />
+											<input type="button" value="-" class="num-btn" onclick="delNum(3)" />
 											<input id="goodsCount3" type="text" size="2" readonly="readonly" class="num-text" value="1">
 											<input class="num-btn" type="button" value="+" onclick="addNum(3)" />
 										</td>
@@ -274,6 +274,124 @@
 					location.href = "orderConfirm.html";
 				})
 			})
+
+			$(document).ready(function() {
+				showCartList();
+			});
+
+			function showCartList() {
+				$("#cart-list").empty();
+				$.ajax({
+					url: "/carts",
+					type: "GET",
+					dataType: "JSON",
+					success: function(json) {
+						let list = json.data;
+						for (let i = 0; i < list.length; i++) {
+							let tr = '<tr>'
+									+ '<td>'
+									+ 	'<input name="cids" value="#{cid}" type="checkbox" class="ckitem" />'
+									+ '</td>'
+									+ '<td><img src="..#{image}collect.png" class="img-responsive" /></td>'
+									+ '<td>#{title}#{msg}</td>'
+									+ '<td>¥<span id="price-#{cid}">#{realPrice}</span></td>'
+									+ '<td>'
+									+ 	'<input type="button" value="-" class="num-btn" onclick="delNum(#{cid})" />'
+									+ 	'<input id="num-#{cid}" type="text" size="2" readonly="readonly" class="num-text" value="#{num}">'
+									+ 	'<input class="num-btn" type="button" value="+" onclick="addNum(#{cid})" />'
+									+ '</td>'
+									+ '<td>¥<span id="total-price-#{cid}">#{totalPrice}</span></td>'
+									+ '<td>'
+									+ 	'<input type="button" onclick="delCartByCid(#{cid})" class="cart-del btn btn-default btn-xs" value="删除" />'
+									+ '</td>'
+									+ '</tr>';
+							tr = tr.replace(/#{cid}/g, list[i].cid);
+							tr = tr.replace(/#{title}/g, list[i].title);
+							tr = tr.replace(/#{image}/g, list[i].image);
+							tr = tr.replace(/#{realPrice}/g, list[i].realPrice);
+							tr = tr.replace(/#{num}/g, list[i].num);
+							tr = tr.replace(/#{totalPrice}/g, list[i].realPrice * list[i].num);
+
+							if (list[i].realPrice < list[i].price) {
+								tr = tr.replace(/#{msg}/g, "比加入时降价" + (list[i].price - list[i].realPrice) + "元");
+							} else {
+								tr = tr.replace(/#{msg}/g, "");
+							}
+							$("#cart-list").append(tr);
+						}
+					}
+				});
+			}
+
+			function addNum(cid) {
+				$.ajax({
+					url: "/carts/" + cid + "/num/add",
+					type: "POST",
+					dataType: "JSON",
+					success: function(json) {
+						if (json.state == 200) {
+							// showCartList();
+							$("#num-" + cid).val(json.data);
+							let price = $("#price-" + cid).html();
+							let totalPrice = price * json.data;
+							$("#total-price-" + cid).html(totalPrice);
+						} else {
+							alert("增加商品数量失败！" + json.message);
+						}
+					},
+					error: function(xhr) {
+						alert("您的登录信息已经过期，请重新登录！HTTP响应码：" + xhr.status);
+						location.href = "login.html";
+					}
+				});
+			}
+
+			function delNum(cid) {
+				$.ajax({
+					url: "/carts/" + cid + "/num/del",
+					type: "POST",
+					dataType: "JSON",
+					success: function(json) {
+						if (json.state == 200) {
+							// showCartList();
+							$("#num-" + cid).val(json.data);
+							let price = $("#price-" + cid).html();
+							if (json.data == 0) {
+								$("#num-" + cid).parent().parent().remove();
+							} else {
+								let totalPrice = price * json.data;
+								$("#total-price-" + cid).html(totalPrice);
+							}
+						} else {
+							alert("减少商品数量失败！" + json.message);
+						}
+					},
+					error: function(xhr) {
+						alert("您的登录信息已经过期，请重新登录！HTTP响应码：" + xhr.status);
+						location.href = "login.html";
+					}
+				});
+			}
+
+			function delCartByCid(cid) {
+				$.ajax({
+					url: "/carts/" + cid + "/del",
+					type: "POST",
+					dataType: "JSON",
+					success: function(json) {
+						if (json.state == 200) {
+							$("#num-" + cid).parent().parent().remove();
+						} else {
+							alert("删除购物车失败失败！" + json.message);
+						}
+					},
+					error: function(xhr) {
+						alert("您的登录信息已经过期，请重新登录！HTTP响应码：" + xhr.status);
+						location.href = "login.html";
+					}
+				});
+			}
+
 		</script>
 	</body>
 
