@@ -9,6 +9,7 @@ import java.util.Objects;
  * @version 1.0
  * @date 2022/4/17 9:02
  */
+// 购物车数据
 public class Cart extends BaseEntity{
     private Integer cid;
     private Integer uid;
